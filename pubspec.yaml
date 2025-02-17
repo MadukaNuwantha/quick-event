@@ -12,12 +12,50 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Provides a set of iOS-style icons for Flutter apps.
   cupertino_icons: ^1.0.8
+
+  # Required for initializing Firebase services in a Flutter app.
+  firebase_core: ^3.11.0
+
+  # Provides authentication functionalities, including email/password and third-party sign-in methods.
+  firebase_auth: ^5.4.2
+
+  # A NoSQL database for storing and syncing app data in real-time.
+  cloud_firestore: ^5.6.3
+
+  # Enables push notifications and background message handling in Flutter apps.
+  firebase_messaging: ^15.2.2
+
+  # Simplifies equality comparisons in Dart, commonly used for value objects in Flutter apps.
+  equatable: ^2.0.7
+
+  # A functional programming library for Dart, providing `Either`, `Option`, and other monads for handling failures and nullability safely.
+  dartz: ^0.10.1
+
+  # A state management library for Flutter that implements the BLoC (Business Logic Component) pattern.
+  flutter_bloc: ^9.0.0
+
+  # The core package for the BLoC pattern, providing tools for managing state in Dart applications.
+  bloc: ^9.0.0
 
 dev_dependencies:
   flutter_test:
+
+    # The testing framework for Flutter apps.
     sdk: flutter
+
+  # A package for applying lint rules to your Flutter project to maintain code quality
   flutter_lints: ^5.0.0
+
+  # A mocking framework for Dart that simplifies unit testing by creating test doubles without code generation.
+  mocktail: ^1.0.4
 
 flutter:
   uses-material-design: true
+  assets:
+    # Path to image assets for your app.
+    - assets/images/
+    # Path to icon assets for your app.
+    - assets/icons/
