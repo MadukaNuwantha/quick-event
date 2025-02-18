@@ -77,10 +77,10 @@ void main() {
         () {
           final result = tOrganizerModel.toJson();
           final tJson = jsonEncode({
-            "id": "_empty.string_",
+            "id": 1,
             "name": "_empty.string_",
             "email": "_empty.string_",
-            "phoneNumber": "_empty.string_"
+            "phoneNumber": "_empty.string_",
           });
           expect(result, equals(tJson));
         },

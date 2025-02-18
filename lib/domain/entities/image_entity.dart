@@ -9,16 +9,16 @@ class ImageEntity extends Equatable {
     required this.thumbnailUrl,
   });
 
-  final String id;
-  final String albumId;
+  final int id;
+  final int albumId;
   final String title;
   final String url;
   final String thumbnailUrl;
 
   const ImageEntity.empty()
       : this(
-          id: '_empty.string_',
-          albumId: '_empty.string_',
+          id: 1,
+          albumId: 1,
           title: '_empty.string_',
           url: '_empty.string_',
           thumbnailUrl: '_empty.string_',

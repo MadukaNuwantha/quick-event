@@ -77,10 +77,11 @@ void main() {
         () {
           final result = tCommentModel.toJson();
           final expectedJson = jsonEncode({
-            "id": "_empty.string_",
-            "userId": "_empty.string_",
-            "title": "_empty.string_",
-            "body": "_empty.string_"
+            "id": 1,
+            "postId": 1,
+            "name": "_empty.string_",
+            "email": "_empty.string_",
+            "body": "_empty.string_",
           });
           expect(result, equals(expectedJson));
         },
@@ -94,8 +95,8 @@ void main() {
       test(
         'should return a [CommentModel] with different data',
         () {
-          final result = tCommentModel.copyWith(title: 'New Title');
-          expect(result.title, equals('New Title'));
+          final result = tCommentModel.copyWith(name: 'New Name');
+          expect(result.name, equals('New Name'));
         },
       );
     },

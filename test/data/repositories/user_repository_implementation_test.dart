@@ -1,3 +1,14 @@
+/*
+
+*  What does the class depend on
+*   Answer - UserRemoteDatasource
+*  How to create a fake version of the dependencies
+*   Answer - Mocktail
+*  How do we control what our dependencies do
+*   Answer - using mocktail api
+
+*/
+
 import 'package:app/core/errors/exceptions.dart';
 import 'package:app/core/errors/failure.dart';
 import 'package:app/data/datasources/user_remote_datasource.dart';

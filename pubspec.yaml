@@ -39,6 +39,7 @@ dependencies:
 
   # The core package for the BLoC pattern, providing tools for managing state in Dart applications.
   bloc: ^9.0.0
+  dio: ^5.8.0+1
 
 dev_dependencies:
   flutter_test:

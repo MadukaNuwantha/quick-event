@@ -8,14 +8,14 @@ class OrganizerEntity extends Equatable {
     required this.phoneNumber,
   });
 
-  final String id;
+  final int id;
   final String name;
   final String email;
   final String phoneNumber;
 
   const OrganizerEntity.empty()
       : this(
-          id: '_empty.string_',
+          id: 1,
           name: '_empty.string_',
           email: '_empty.string_',
           phoneNumber: '_empty.string_',

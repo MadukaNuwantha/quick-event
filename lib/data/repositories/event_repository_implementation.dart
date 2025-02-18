@@ -5,6 +5,7 @@ import 'package:app/data/datasources/event_remote_datasource.dart';
 import 'package:app/domain/entities/comment_entity.dart';
 import 'package:app/domain/entities/image_entity.dart';
 import 'package:app/domain/entities/organizer_entity.dart';
+import 'package:app/domain/entities/post_entity.dart';
 import 'package:app/domain/repositories/event_repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -42,6 +43,18 @@ class EventRepositoryImplementation implements EventRepository {
     try {
       final result = await _eventRemoteDatasource.getEventComments();
       return Right([CommentEntity.empty()]);
+    } on ServerException catch (e) {
+      return Left(
+        ServerFailure.fromException(e),
+      );
+    }
+  }
+
+  @override
+  ResultFuture<List<PostEntity>> getEventPosts() async {
+    try {
+      final result = await _eventRemoteDatasource.getEventPosts();
+      return Right([PostEntity.empty()]);
     } on ServerException catch (e) {
       return Left(
         ServerFailure.fromException(e),

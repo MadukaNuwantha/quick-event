@@ -14,8 +14,8 @@ class ImageModel extends ImageEntity {
 
   const ImageModel.empty()
       : this(
-          id: '_empty.string_',
-          albumId: '_empty.string_',
+          id: 1,
+          albumId: 1,
           title: '_empty.string_',
           url: '_empty.string_',
           thumbnailUrl: '_empty.string_',
@@ -23,8 +23,8 @@ class ImageModel extends ImageEntity {
 
   ImageModel.fromMap(DataMap map)
       : this(
-          id: map['id'] as String,
-          albumId: map['albumId'] as String,
+          id: map['id'] as int,
+          albumId: map['albumId'] as int,
           title: map['title'] as String,
           url: map['url'] as String,
           thumbnailUrl: map['thumbnailUrl'] as String,
@@ -33,8 +33,8 @@ class ImageModel extends ImageEntity {
   factory ImageModel.fromJson(String source) => ImageModel.fromMap(jsonDecode(source) as DataMap);
 
   ImageModel copyWith({
-    String? id,
-    String? albumId,
+    int? id,
+    int? albumId,
     String? title,
     String? url,
     String? thumbnailUrl,

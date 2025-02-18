@@ -1,28 +1,80 @@
+import 'package:app/core/network/nerwork_service.dart';
 import 'package:app/data/models/comment_model.dart';
 import 'package:app/data/models/image_model.dart';
 import 'package:app/data/models/organizer_model.dart';
+import 'package:app/data/models/post_model.dart';
 
 abstract class EventRemoteDatasource {
   Future<List<ImageModel>> getEventImages();
 
   Future<List<OrganizerModel>> getEventOrganizers();
 
+  Future<List<PostModel>> getEventPosts();
+
   Future<List<CommentModel>> getEventComments();
 }
 
 class EventRemoteDatasourceImpl implements EventRemoteDatasource {
+  const EventRemoteDatasourceImpl(this._networkService);
+  final NetworkService _networkService;
+
   @override
-  Future<List<CommentModel>> getEventComments() {
-    throw UnimplementedError();
+  Future<List<PostModel>> getEventPosts() async {
+    try {
+      final response = await _networkService.getRequest('posts');
+      return (response.data as List)
+          .map(
+            (json) => PostModel.fromJson(json),
+          )
+          .take(10)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load event posts: $e');
+    }
   }
 
   @override
-  Future<List<ImageModel>> getEventImages() {
-    throw UnimplementedError();
+  Future<List<CommentModel>> getEventComments() async {
+    try {
+      final response = await _networkService.getRequest('comments');
+      return (response.data as List)
+          .map(
+            (json) => CommentModel.fromJson(json),
+          )
+          .take(10)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load event comments: $e');
+    }
   }
 
   @override
-  Future<List<OrganizerModel>> getEventOrganizers() {
-    throw UnimplementedError();
+  Future<List<ImageModel>> getEventImages() async {
+    try {
+      final response = await _networkService.getRequest('photos');
+      return (response.data as List)
+          .map(
+            (json) => ImageModel.fromJson(json),
+          )
+          .take(10)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load event images: $e');
+    }
+  }
+
+  @override
+  Future<List<OrganizerModel>> getEventOrganizers() async {
+    try {
+      final response = await _networkService.getRequest('users');
+      return (response.data as List)
+          .map(
+            (json) => OrganizerModel.fromJson(json),
+          )
+          .take(10)
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to load event organizers: $e');
+    }
   }
 }

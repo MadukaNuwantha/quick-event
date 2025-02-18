@@ -13,7 +13,7 @@ class OrganizerModel extends OrganizerEntity {
 
   const OrganizerModel.empty()
       : this(
-          id: '_empty.string_',
+          id: 1,
           name: '_empty.string_',
           email: '_empty.string_',
           phoneNumber: '_empty.string_',
@@ -21,7 +21,7 @@ class OrganizerModel extends OrganizerEntity {
 
   OrganizerModel.fromMap(DataMap map)
       : this(
-          id: map['id'] as String,
+          id: map['id'] as int,
           name: map['name'] as String,
           email: map['email'] as String,
           phoneNumber: map['phoneNumber'] as String,
@@ -30,7 +30,7 @@ class OrganizerModel extends OrganizerEntity {
   factory OrganizerModel.fromJson(String source) => OrganizerModel.fromMap(jsonDecode(source) as DataMap);
 
   OrganizerModel copyWith({
-    String? id,
+    int? id,
     String? name,
     String? email,
     String? phoneNumber,

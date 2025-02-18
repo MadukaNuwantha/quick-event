@@ -3,29 +3,33 @@ import 'package:equatable/equatable.dart';
 class CommentEntity extends Equatable {
   const CommentEntity({
     required this.id,
-    required this.userId,
-    required this.title,
+    required this.postId,
+    required this.name,
+    required this.email,
     required this.body,
   });
 
-  final String id;
-  final String userId;
-  final String title;
+  final int id;
+  final int postId;
+  final String name;
+  final String email;
   final String body;
 
   const CommentEntity.empty()
       : this(
-          id: '_empty.string_',
-          userId: '_empty.string_',
-          title: '_empty.string_',
+          id: 1,
+          postId: 1,
+          name: '_empty.string_',
+          email: '_empty.string_',
           body: '_empty.string_',
         );
 
   @override
   List<Object?> get props => [
         id,
-        userId,
-        title,
+        postId,
+        name,
+        email,
         body,
       ];
 }
