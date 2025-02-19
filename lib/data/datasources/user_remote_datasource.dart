@@ -1,3 +1,4 @@
+import 'package:app/core/errors/exceptions.dart';
 import 'package:app/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,8 +39,11 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         password: password,
       );
       await _firebaseAuth.signOut();
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
+    } catch (e) {
+      throw ServerException(
+        message: 'Error : $e',
+        statusCode: 500,
+      );
     }
   }
 
@@ -66,7 +70,10 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         throw Exception("No authenticated user found");
       }
     } catch (e) {
-      throw Exception("Failed to create user: $e");
+      throw ServerException(
+        message: 'Error : $e',
+        statusCode: 500,
+      );
     }
   }
 
@@ -85,7 +92,10 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         throw Exception("No authenticated user found");
       }
     } catch (e) {
-      throw Exception("Failed to get user: $e");
+      throw ServerException(
+        message: 'Error : $e',
+        statusCode: 500,
+      );
     }
   }
 
@@ -111,7 +121,10 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         throw Exception("No authenticated user found");
       }
     } catch (e) {
-      throw Exception("Failed to update user: $e");
+      throw ServerException(
+        message: 'Error : $e',
+        statusCode: 500,
+      );
     }
   }
 }

@@ -16,9 +16,8 @@ final class EventLoading extends EventState {
 }
 
 final class EventLoaded<T> extends EventState {
+  const EventLoaded(this.data);
   final T data;
-
-  EventLoaded(this.data);
 }
 
 final class EventError extends EventState {

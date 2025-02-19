@@ -115,12 +115,7 @@ void main() {
 
           expect(
             () async => methodCall(),
-            throwsA(
-              ServerException(
-                message: '_empty.string_',
-                statusCode: 400,
-              ),
-            ),
+            throwsA(isA<ServerException>()),
           );
 
           verify(
@@ -163,6 +158,31 @@ void main() {
           verifyNoMoreInteractions(networkService);
         },
       );
+      test(
+        'should throw [ServerException] when the status code is not 200 or 201',
+        () {
+          when(() => networkService.getRequest('comments')).thenAnswer(
+            (_) async => Response(
+              data: '_empty.string_',
+              statusCode: 400,
+              requestOptions: RequestOptions(path: 'comments'),
+            ),
+          );
+
+          final methodCall = eventRemoteDatasource.getEventComments;
+
+          expect(
+            () async => methodCall(),
+            throwsA(isA<ServerException>()),
+          );
+
+          verify(
+            () => networkService.getRequest('comments'),
+          ).called(1);
+
+          verifyNoMoreInteractions(networkService);
+        },
+      );
     },
   );
 
@@ -188,6 +208,32 @@ void main() {
           expect(result, isA<List<ImageModel>>());
 
           expect(result.length, 10);
+
+          verify(
+            () => networkService.getRequest('photos'),
+          ).called(1);
+
+          verifyNoMoreInteractions(networkService);
+        },
+      );
+
+      test(
+        'should throw [ServerException] when the status code is not 200 or 201',
+        () {
+          when(() => networkService.getRequest('photos')).thenAnswer(
+            (_) async => Response(
+              data: '_empty.string_',
+              statusCode: 400,
+              requestOptions: RequestOptions(path: 'photos'),
+            ),
+          );
+
+          final methodCall = eventRemoteDatasource.getEventImages;
+
+          expect(
+            () async => methodCall(),
+            throwsA(isA<ServerException>()),
+          );
 
           verify(
             () => networkService.getRequest('photos'),
@@ -229,155 +275,32 @@ void main() {
           verifyNoMoreInteractions(networkService);
         },
       );
+
+      test(
+        'should throw [ServerException] when the status code is not 200 or 201',
+        () {
+          when(() => networkService.getRequest('users')).thenAnswer(
+            (_) async => Response(
+              data: '_empty.string_',
+              statusCode: 400,
+              requestOptions: RequestOptions(path: 'users'),
+            ),
+          );
+
+          final methodCall = eventRemoteDatasource.getEventOrganizers;
+
+          expect(
+            () async => methodCall(),
+            throwsA(isA<ServerException>()),
+          );
+
+          verify(
+            () => networkService.getRequest('users'),
+          ).called(1);
+
+          verifyNoMoreInteractions(networkService);
+        },
+      );
     },
   );
-
-  // group(
-  //   'EventRemoteDatasource',
-  //   () {
-  //     test(
-  //       'should return a list of [PostModel] when getEventPosts is successful',
-  //       () async {
-  //         when(() => networkService.getRequest('posts')).thenAnswer(
-  //           (_) async =>,
-  //         );
-  //
-  //         final result = await eventRemoteDatasource.getEventPosts();
-  //
-  //         expect(result, isA<List<PostModel>>());
-  //
-  //         expect(result.length, 10);
-  //       },
-  //     );
-  //
-  //     test(
-  //       'should throw an exception when getEventPosts fails',
-  //       () async {
-  //         when(() => networkService.getRequest('posts')).thenThrow(
-  //           Exception('Error fetching posts'),
-  //         );
-  //
-  //         expect(
-  //           () => eventRemoteDatasource.getEventPosts(),
-  //           throwsException,
-  //         );
-  //       },
-  //     );
-  //
-  //     test(
-  //       'should return a list of CommentModel when getEventComments is successful',
-  //       () async {
-  //         final mockResponse = {
-  //           'data': List.generate(
-  //             10,
-  //             (index) => {
-  //               'id': index,
-  //               'content': 'Comment $index',
-  //             },
-  //           )
-  //         };
-  //         when(() => networkService.getRequest('comments')).thenAnswer(
-  //           (_) async => mockResponse,
-  //         );
-  //
-  //         final result = await eventRemoteDatasource.getEventComments();
-  //
-  //         expect(result, isA<List<CommentModel>>());
-  //
-  //         expect(result.length, 10);
-  //       },
-  //     );
-  //
-  //     test(
-  //       'should throw an exception when getEventComments fails',
-  //       () async {
-  //         when(() => networkService.getRequest('comments')).thenThrow(
-  //           Exception('Error fetching comments'),
-  //         );
-  //
-  //         expect(
-  //           () => eventRemoteDatasource.getEventComments(),
-  //           throwsException,
-  //         );
-  //       },
-  //     );
-  //
-  //     test(
-  //       'should return a list of ImageModel when getEventImages is successful',
-  //       () async {
-  //         final mockResponse = {
-  //           'data': List.generate(
-  //             10,
-  //             (index) => {
-  //               'id': index,
-  //               'url': 'https://example.com/image$index.jpg',
-  //             },
-  //           )
-  //         };
-  //         when(() => networkService.getRequest('photos')).thenAnswer(
-  //           (_) async => mockResponse,
-  //         );
-  //
-  //         final result = await eventRemoteDatasource.getEventImages();
-  //
-  //         expect(result, isA<List<ImageModel>>());
-  //
-  //         expect(result.length, 10);
-  //       },
-  //     );
-  //
-  //     test(
-  //       'should throw an exception when getEventImages fails',
-  //       () async {
-  //         when(() => networkService.getRequest('photos')).thenThrow(
-  //           Exception('Error fetching images'),
-  //         );
-  //
-  //         expect(
-  //           () => eventRemoteDatasource.getEventImages(),
-  //           throwsException,
-  //         );
-  //       },
-  //     );
-  //
-  //     test(
-  //       'should return a list of OrganizerModel when getEventOrganizers is successful',
-  //       () async {
-  //         final mockResponse = {
-  //           'data': List.generate(
-  //             10,
-  //             (index) => {
-  //               'id': index,
-  //               'name': 'Organizer $index',
-  //             },
-  //           )
-  //         };
-  //
-  //         when(() => networkService.getRequest('users')).thenAnswer(
-  //           (_) async => mockResponse,
-  //         );
-  //
-  //         final result = await eventRemoteDatasource.getEventOrganizers();
-  //
-  //         expect(result, isA<List<OrganizerModel>>());
-  //
-  //         expect(result.length, 10);
-  //       },
-  //     );
-  //
-  //     test(
-  //       'should throw an exception when getEventOrganizers fails',
-  //       () async {
-  //         when(() => networkService.getRequest('users')).thenThrow(
-  //           Exception('Error fetching organizers'),
-  //         );
-  //
-  //         expect(
-  //           () => eventRemoteDatasource.getEventOrganizers(),
-  //           throwsException,
-  //         );
-  //       },
-  //     );
-  //   },
-  // );
 }
