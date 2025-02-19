@@ -1,4 +1,4 @@
-part of 'auth_bloc.dart';
+part of 'event_bloc.dart';
 
 sealed class EventState extends Equatable {
   const EventState();

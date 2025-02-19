@@ -3,6 +3,7 @@ import 'package:app/domain/usecases/event_usecase/event_image_usecase.dart';
 import 'package:app/domain/usecases/event_usecase/event_organizer_usecase.dart';
 import 'package:app/domain/usecases/event_usecase/event_post_usecase.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'event_event.dart';
