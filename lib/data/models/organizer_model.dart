@@ -24,7 +24,7 @@ class OrganizerModel extends OrganizerEntity {
           id: map['id'] as int,
           name: map['name'] as String,
           email: map['email'] as String,
-          phoneNumber: map['phoneNumber'] as String,
+          phoneNumber: map['phone'] as String,
         );
 
   factory OrganizerModel.fromJson(String source) => OrganizerModel.fromMap(jsonDecode(source) as DataMap);

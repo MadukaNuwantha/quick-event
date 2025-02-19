@@ -26,5 +26,8 @@ class ServerFailure extends Failure {
   });
 
   ServerFailure.fromException(ServerException exception)
-      : this(message: exception.message, statusCode: exception.statusCode);
+      : this(
+          message: exception.message,
+          statusCode: exception.statusCode,
+        );
 }

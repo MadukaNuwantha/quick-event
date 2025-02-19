@@ -1,3 +1,4 @@
+import 'package:app/core/errors/exceptions.dart';
 import 'package:app/core/network/nerwork_service.dart';
 import 'package:app/data/models/comment_model.dart';
 import 'package:app/data/models/image_model.dart';
@@ -24,12 +25,14 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
       final response = await _networkService.getRequest('posts');
       return (response.data as List)
           .map(
-            (json) => PostModel.fromJson(json),
+            (json) => PostModel.fromMap(json),
           )
-          .take(10)
           .toList();
     } catch (e) {
-      throw Exception('Failed to load event posts: $e');
+      throw ServerException(
+        message: 'Error : $e',
+        statusCode: 500,
+      );
     }
   }
 
@@ -39,12 +42,14 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
       final response = await _networkService.getRequest('comments');
       return (response.data as List)
           .map(
-            (json) => CommentModel.fromJson(json),
+            (json) => CommentModel.fromMap(json),
           )
-          .take(10)
           .toList();
     } catch (e) {
-      throw Exception('Failed to load event comments: $e');
+      throw ServerException(
+        message: 'Error : $e',
+        statusCode: 500,
+      );
     }
   }
 
@@ -54,12 +59,15 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
       final response = await _networkService.getRequest('photos');
       return (response.data as List)
           .map(
-            (json) => ImageModel.fromJson(json),
+            (json) => ImageModel.fromMap(json),
           )
           .take(10)
           .toList();
     } catch (e) {
-      throw Exception('Failed to load event images: $e');
+      throw ServerException(
+        message: 'Error : $e',
+        statusCode: 500,
+      );
     }
   }
 
@@ -69,12 +77,14 @@ class EventRemoteDatasourceImpl implements EventRemoteDatasource {
       final response = await _networkService.getRequest('users');
       return (response.data as List)
           .map(
-            (json) => OrganizerModel.fromJson(json),
+            (json) => OrganizerModel.fromMap(json),
           )
-          .take(10)
           .toList();
     } catch (e) {
-      throw Exception('Failed to load event organizers: $e');
+      throw ServerException(
+        message: 'Error : $e',
+        statusCode: 500,
+      );
     }
   }
 }

@@ -1,15 +1,18 @@
+import 'package:app/core/errors/exceptions.dart';
 import 'package:dio/dio.dart';
 
 class NetworkService {
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: 'https://jsonplaceholder.typicode.com/',
-    connectTimeout: Duration(seconds: 10),
-    receiveTimeout: Duration(seconds: 10),
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-  ));
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://jsonplaceholder.typicode.com/',
+      connectTimeout: Duration(seconds: 10),
+      receiveTimeout: Duration(seconds: 10),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    ),
+  );
 
   Future<Response> _makeRequest({
     required String endpoint,
@@ -35,9 +38,27 @@ class NetworkService {
         default:
           throw Exception('Invalid HTTP method: $method');
       }
+
+      if (response.statusCode == null || response.statusCode! < 200 || response.statusCode! > 299) {
+        throw ServerException(
+          message: response.data?.toString() ?? 'Unknown error',
+          statusCode: response.statusCode ?? 500,
+        );
+      }
+
       return response;
+    } on DioException catch (e) {
+      throw ServerException(
+        message: e.response?.data?.toString() ?? e.message.toString(),
+        statusCode: e.response?.statusCode ?? 500,
+      );
+    } on ServerException {
+      rethrow;
     } catch (e) {
-      throw Exception('Network error: $e');
+      throw ServerException(
+        message: e.toString(),
+        statusCode: 505,
+      );
     }
   }
 
