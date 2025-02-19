@@ -4,6 +4,7 @@ import 'package:app/data/datasources/event_remote_datasource.dart';
 import 'package:app/data/models/comment_model.dart';
 import 'package:app/data/models/image_model.dart';
 import 'package:app/data/models/organizer_model.dart';
+import 'package:app/data/models/post_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -71,33 +72,33 @@ void main() {
   group(
     'getEventPosts',
     () {
-      // test(
-      //   'should return a list of [PostModel] when getEventPosts is successful',
-      //   () async {
-      //     when(() => networkService.getRequest('posts')).thenAnswer(
-      //       (_) async => Response(
-      //         data: List.generate(
-      //           10,
-      //           (index) => postResponse,
-      //         ),
-      //         statusCode: 200,
-      //         requestOptions: RequestOptions(path: 'posts'),
-      //       ),
-      //     );
-      //
-      //     final result = await eventRemoteDatasource.getEventPosts();
-      //
-      //     expect(result, isA<List<PostModel>>());
-      //
-      //     expect(result.length, 10);
-      //
-      //     verify(
-      //       () => networkService.getRequest('posts'),
-      //     ).called(1);
-      //
-      //     verifyNoMoreInteractions(networkService);
-      //   },
-      // );
+      test(
+        'should return a list of [PostModel] when getEventPosts is successful',
+        () async {
+          when(() => networkService.getRequest('posts')).thenAnswer(
+            (_) async => Response(
+              data: List.generate(
+                10,
+                (index) => postResponse,
+              ),
+              statusCode: 200,
+              requestOptions: RequestOptions(path: 'posts'),
+            ),
+          );
+
+          final result = await eventRemoteDatasource.getEventPosts();
+
+          expect(result, isA<List<PostModel>>());
+
+          expect(result.length, 10);
+
+          verify(
+            () => networkService.getRequest('posts'),
+          ).called(1);
+
+          verifyNoMoreInteractions(networkService);
+        },
+      );
 
       test(
         'should throw [ServerException] when the status code is not 200 or 201',

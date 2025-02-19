@@ -11,18 +11,6 @@ class AuthRepositoryImplementation implements AuthRepository {
   final AuthRemoteDatasource _authRemoteDatasource;
 
   @override
-  ResultVoid createUser({required String email, required String password}) async {
-    try {
-      await _authRemoteDatasource.createUser(email: email, password: password);
-      return Right(null);
-    } on ServerException catch (e) {
-      return Left(
-        ServerFailure.fromException(e),
-      );
-    }
-  }
-
-  @override
   ResultVoid loginUser({required String email, required String password}) async {
     try {
       await _authRemoteDatasource.loginUser(email: email, password: password);

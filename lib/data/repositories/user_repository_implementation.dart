@@ -12,7 +12,19 @@ class UserRepositoryImplementation implements UserRepository {
   final UserRemoteDatasource _userRemoteDatasource;
 
   @override
-  ResultVoid createUser({
+  ResultVoid createUser({required String email, required String password}) async {
+    try {
+      await _userRemoteDatasource.createUser(email: email, password: password);
+      return Right(null);
+    } on ServerException catch (e) {
+      return Left(
+        ServerFailure.fromException(e),
+      );
+    }
+  }
+
+  @override
+  ResultVoid saveUser({
     required firstName,
     required lastName,
     required email,
@@ -20,7 +32,7 @@ class UserRepositoryImplementation implements UserRepository {
     required address,
   }) async {
     try {
-      await _userRemoteDatasource.createUser(
+      await _userRemoteDatasource.saveUser(
         firstName: firstName,
         lastName: lastName,
         email: email,

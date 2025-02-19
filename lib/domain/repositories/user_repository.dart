@@ -7,6 +7,11 @@ abstract class UserRepository {
   ResultFuture<UserEntity> getUser();
 
   ResultVoid createUser({
+    required String email,
+    required String password,
+  });
+
+  ResultVoid saveUser({
     required firstName,
     required lastName,
     required email,

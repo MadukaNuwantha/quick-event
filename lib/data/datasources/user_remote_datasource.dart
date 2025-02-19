@@ -1,11 +1,13 @@
 import 'package:app/data/models/user_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' show DocumentSnapshot, FirebaseFirestore;
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class UserRemoteDatasource {
   Future<UserModel> getUser();
 
-  Future<void> createUser({
+  Future<void> createUser({required String email, required String password});
+
+  Future<void> saveUser({
     required firstName,
     required lastName,
     required email,
@@ -23,13 +25,26 @@ abstract class UserRemoteDatasource {
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
-  const UserRemoteDatasourceImpl(this._auth, this._firestore);
+  const UserRemoteDatasourceImpl(this._firebaseAuth, this._firebaseFirestore);
 
-  final FirebaseAuth _auth;
-  final FirebaseFirestore _firestore;
+  final FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firebaseFirestore;
 
   @override
-  Future<void> createUser({
+  Future<void> createUser({required String email, required String password}) async {
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await _firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  @override
+  Future<void> saveUser({
     required firstName,
     required lastName,
     required email,
@@ -37,9 +52,9 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
     required address,
   }) async {
     try {
-      User? user = _auth.currentUser;
+      User? user = _firebaseAuth.currentUser;
       if (user != null) {
-        await _firestore.collection('users').doc(user.uid).set({
+        await _firebaseFirestore.collection('users').doc(user.uid).set({
           'id': user.uid,
           'email': email,
           'firstName': firstName,
@@ -58,9 +73,9 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   @override
   Future<UserModel> getUser() async {
     try {
-      User? user = _auth.currentUser;
+      User? user = _firebaseAuth.currentUser;
       if (user != null) {
-        DocumentSnapshot doc = await _firestore.collection('users').doc(user.uid).get();
+        DocumentSnapshot doc = await _firebaseFirestore.collection('users').doc(user.uid).get();
         if (doc.exists) {
           return UserModel.fromJson(doc.data() as String);
         } else {
@@ -83,9 +98,9 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
     required address,
   }) async {
     try {
-      User? user = _auth.currentUser;
+      User? user = _firebaseAuth.currentUser;
       if (user != null) {
-        await _firestore.collection('users').doc(user.uid).update({
+        await _firebaseFirestore.collection('users').doc(user.uid).update({
           'firstName': firstName,
           'lastName': lastName,
           'email': email,

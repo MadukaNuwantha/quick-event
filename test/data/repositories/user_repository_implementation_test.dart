@@ -30,6 +30,9 @@ void main() {
     userRepositoryImplementation = UserRepositoryImplementation(userRemoteDatasource);
   });
 
+  const String tEmail = 'test@example.com';
+  const String tPassword = 'password123';
+
   const tException = ServerException(
     message: 'Unknown error occurred',
     statusCode: 500,
@@ -39,10 +42,72 @@ void main() {
     'createUser',
     () {
       test(
-        'should return Right(null) when creating a user is successful',
+        'should return Right(null) when creating user is successful',
         () async {
           when(
             () => userRemoteDatasource.createUser(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+            ),
+          ).thenAnswer((_) async => Future.value());
+
+          final result = await userRepositoryImplementation.createUser(email: tEmail, password: tPassword);
+
+          expect(result, equals(Right(null)));
+
+          verify(
+            () => userRemoteDatasource.createUser(
+              email: tEmail,
+              password: tPassword,
+            ),
+          ).called(1);
+
+          verifyNoMoreInteractions(userRemoteDatasource);
+        },
+      );
+
+      test(
+        'should return Left(ServerFailure) when creating user fails',
+        () async {
+          when(
+            () => userRemoteDatasource.createUser(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+            ),
+          ).thenThrow(tException);
+
+          final result = await userRepositoryImplementation.createUser(email: tEmail, password: tPassword);
+
+          expect(
+            result,
+            equals(
+              Left(
+                ServerFailure(
+                  message: tException.message,
+                  statusCode: tException.statusCode,
+                ),
+              ),
+            ),
+          );
+
+          verify(
+            () => userRemoteDatasource.createUser(email: tEmail, password: tPassword),
+          ).called(1);
+
+          verifyNoMoreInteractions(userRemoteDatasource);
+        },
+      );
+    },
+  );
+
+  group(
+    'saveUser',
+    () {
+      test(
+        'should return Right(null) when creating a user is successful',
+        () async {
+          when(
+            () => userRemoteDatasource.saveUser(
               firstName: any(named: 'firstName'),
               lastName: any(named: 'lastName'),
               email: any(named: 'email'),
@@ -51,7 +116,7 @@ void main() {
             ),
           ).thenAnswer((_) async => Future.value());
 
-          final result = await userRepositoryImplementation.createUser(
+          final result = await userRepositoryImplementation.saveUser(
             firstName: 'John',
             lastName: 'Doe',
             email: 'johndoe@example.com',
@@ -62,7 +127,7 @@ void main() {
           expect(result, equals(Right(null)));
 
           verify(
-            () => userRemoteDatasource.createUser(
+            () => userRemoteDatasource.saveUser(
               firstName: 'John',
               lastName: 'Doe',
               email: 'johndoe@example.com',
@@ -79,7 +144,7 @@ void main() {
         'should return Left(ServerFailure) when creating a user fails',
         () async {
           when(
-            () => userRemoteDatasource.createUser(
+            () => userRemoteDatasource.saveUser(
               firstName: any(named: 'firstName'),
               lastName: any(named: 'lastName'),
               email: any(named: 'email'),
@@ -88,7 +153,7 @@ void main() {
             ),
           ).thenThrow(tException);
 
-          final result = await userRepositoryImplementation.createUser(
+          final result = await userRepositoryImplementation.saveUser(
             firstName: 'John',
             lastName: 'Doe',
             email: 'johndoe@example.com',
@@ -104,7 +169,7 @@ void main() {
           );
 
           verify(
-            () => userRemoteDatasource.createUser(
+            () => userRemoteDatasource.saveUser(
               firstName: 'John',
               lastName: 'Doe',
               email: 'johndoe@example.com',

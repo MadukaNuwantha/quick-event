@@ -9,44 +9,28 @@ class UserCreateUsecase extends UsecaseWithParams<void, UserCreateParams> {
   final UserRepository _userRepository;
 
   @override
-  ResultVoid call(UserCreateParams params) async => _userRepository.createUser(
-        firstName: params.firstName,
-        lastName: params.lastName,
-        email: params.email,
-        phoneNumber: params.phoneNumber,
-        address: params.address,
-      );
+  ResultVoid call(UserCreateParams params) async =>
+      _userRepository.createUser(email: params.email, password: params.password);
 }
 
 class UserCreateParams extends Equatable {
   const UserCreateParams({
-    required this.firstName,
-    required this.lastName,
     required this.email,
-    required this.phoneNumber,
-    required this.address,
+    required this.password,
   });
 
   const UserCreateParams.empty()
       : this(
-          firstName: '_empty.string',
-          lastName: '_empty.string',
-          email: '_empty.string',
-          phoneNumber: '_empty.string',
-          address: '_empty.string',
+          email: '_empty.string_',
+          password: '_empty.string_',
         );
-  final String firstName;
-  final String lastName;
+
   final String email;
-  final String phoneNumber;
-  final String address;
+  final String password;
 
   @override
   List<Object?> get props => [
-        firstName,
-        lastName,
         email,
-        phoneNumber,
-        address,
+        password,
       ];
 }

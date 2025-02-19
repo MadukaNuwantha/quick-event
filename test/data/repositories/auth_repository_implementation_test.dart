@@ -36,68 +36,6 @@ void main() {
   );
 
   group(
-    'createUser',
-    () {
-      test(
-        'should return Right(null) when creating user is successful',
-        () async {
-          when(
-            () => authRemoteDatasource.createUser(
-              email: any(named: 'email'),
-              password: any(named: 'password'),
-            ),
-          ).thenAnswer((_) async => Future.value());
-
-          final result = await authRepositoryImplementation.createUser(email: tEmail, password: tPassword);
-
-          expect(result, equals(Right(null)));
-
-          verify(
-            () => authRemoteDatasource.createUser(
-              email: tEmail,
-              password: tPassword,
-            ),
-          ).called(1);
-
-          verifyNoMoreInteractions(authRemoteDatasource);
-        },
-      );
-
-      test(
-        'should return Left(ServerFailure) when creating user fails',
-        () async {
-          when(
-            () => authRemoteDatasource.createUser(
-              email: any(named: 'email'),
-              password: any(named: 'password'),
-            ),
-          ).thenThrow(tException);
-
-          final result = await authRepositoryImplementation.createUser(email: tEmail, password: tPassword);
-
-          expect(
-            result,
-            equals(
-              Left(
-                ServerFailure(
-                  message: tException.message,
-                  statusCode: tException.statusCode,
-                ),
-              ),
-            ),
-          );
-
-          verify(
-            () => authRemoteDatasource.createUser(email: tEmail, password: tPassword),
-          ).called(1);
-
-          verifyNoMoreInteractions(authRemoteDatasource);
-        },
-      );
-    },
-  );
-
-  group(
     'loginUser',
     () {
       test(
