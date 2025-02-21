@@ -12,12 +12,75 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Provides a set of iOS-style icons for Flutter apps.
   cupertino_icons: ^1.0.8
+
+  # Required for initializing Firebase services in a Flutter app.
+  firebase_core: ^3.11.0
+
+  # Provides authentication functionalities, including email/password and third-party sign-in methods.
+  firebase_auth: ^5.4.2
+
+  # A NoSQL database for storing and syncing app data in real-time.
+  cloud_firestore: ^5.6.3
+
+  # Enables push notifications and background message handling in Flutter apps.
+  firebase_messaging: ^15.2.2
+
+  # Simplifies equality comparisons in Dart, commonly used for value objects in Flutter apps.
+  equatable: ^2.0.7
+
+  # A functional programming library for Dart, providing `Either`, `Option`, and other monads for handling failures and nullability safely.
+  dartz: ^0.10.1
+
+  # A state management library for Flutter that implements the BLoC (Business Logic Component) pattern.
+  flutter_bloc: ^9.0.0
+
+  # The core package for the BLoC pattern, providing tools for managing state in Dart applications.
+  bloc: ^9.0.0
+
+  # A powerful HTTP client for making API requests with features like interceptors and cancelable requests.
+  dio: ^5.8.0+1
+
+  # Enables the use of Google Fonts in a Flutter app.
+  google_fonts: ^6.2.1
+
+  # A declarative routing package for Flutter apps, supporting deep linking and navigation.
+  go_router: ^14.8.0
+
+  # A collection of animated loading indicators for Flutter applications.
+  flutter_spinkit: ^5.2.1
+
+  # A Flutter package for creating image carousels and sliders with customizable options.
+  carousel_slider: ^5.0.0
+
+  # Provides platform-specific package information like app version and build number.
+  package_info_plus: ^8.2.1
+
+  # A service locator for managing dependency injection in Flutter and Dart applications.
+  get_it: ^8.0.3
+
+  # A flexible and easy-to-use logging package for debugging and monitoring Flutter applications.
+  logger: ^2.5.0
 
 dev_dependencies:
   flutter_test:
+
+    # The testing framework for Flutter apps.
     sdk: flutter
+
+  # A package for applying lint rules to your Flutter project to maintain code quality
   flutter_lints: ^5.0.0
+
+  # A mocking framework for Dart that simplifies unit testing by creating test doubles without code generation.
+  mocktail: ^1.0.4
+  bloc_test: ^10.0.0
 
 flutter:
   uses-material-design: true
+  assets:
+    # Path to image assets for your app.
+    - assets/images/
+    # Path to icon assets for your app.
+    - assets/icons/

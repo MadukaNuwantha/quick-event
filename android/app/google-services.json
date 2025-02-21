@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "387740738063",
+    "project_id": "quick-event-0000",
+    "storage_bucket": "quick-event-0000.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387740738063:android:8d67fd5f001d40d644b97a",
+        "android_client_info": {
+          "package_name": "lk.quickevent.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZcZGz6aeH4k257qK8KNZRNV_9PYDMxP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
