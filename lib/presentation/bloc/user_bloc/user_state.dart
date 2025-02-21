@@ -28,8 +28,8 @@ final class UserUpdated extends UserState {
 }
 
 final class UserLoaded extends UserState {
-  const UserLoaded(this.data);
-  final UserEntity data;
+  const UserLoaded(this.userEntity);
+  final UserEntity userEntity;
 }
 
 final class UserError extends UserState {

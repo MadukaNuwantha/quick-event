@@ -14,3 +14,5 @@ class LoadEventImages extends EventEvent {}
 class LoadEventOrganizers extends EventEvent {}
 
 class LoadEventPosts extends EventEvent {}
+
+class LoadDashboardData extends EventEvent {}

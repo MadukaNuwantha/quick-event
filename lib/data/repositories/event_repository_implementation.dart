@@ -18,7 +18,16 @@ class EventRepositoryImplementation implements EventRepository {
   ResultFuture<List<ImageEntity>> getEventImages() async {
     try {
       final result = await _eventRemoteDatasource.getEventImages();
-      return Right([ImageEntity.empty()]);
+      final imageEntities = result
+          .map((imageModel) => ImageEntity(
+                id: imageModel.id,
+                albumId: imageModel.albumId,
+                title: imageModel.title,
+                url: imageModel.url,
+                thumbnailUrl: imageModel.thumbnailUrl,
+              ))
+          .toList();
+      return Right(imageEntities);
     } on ServerException catch (e) {
       return Left(
         ServerFailure.fromException(e),
@@ -30,7 +39,15 @@ class EventRepositoryImplementation implements EventRepository {
   ResultFuture<List<OrganizerEntity>> getEventOrganizers() async {
     try {
       final result = await _eventRemoteDatasource.getEventOrganizers();
-      return Right([OrganizerEntity.empty()]);
+      final organizerEntities = result
+          .map((organizerModel) => OrganizerEntity(
+                id: organizerModel.id,
+                name: organizerModel.name,
+                email: organizerModel.email,
+                phoneNumber: organizerModel.phoneNumber,
+              ))
+          .toList();
+      return Right(organizerEntities);
     } on ServerException catch (e) {
       return Left(
         ServerFailure.fromException(e),
@@ -42,7 +59,16 @@ class EventRepositoryImplementation implements EventRepository {
   ResultFuture<List<CommentEntity>> getEventComments() async {
     try {
       final result = await _eventRemoteDatasource.getEventComments();
-      return Right([CommentEntity.empty()]);
+      final commentEntities = result
+          .map((commentModel) => CommentEntity(
+                id: commentModel.id,
+                postId: commentModel.postId,
+                name: commentModel.name,
+                email: commentModel.email,
+                body: commentModel.body,
+              ))
+          .toList();
+      return Right(commentEntities);
     } on ServerException catch (e) {
       return Left(
         ServerFailure.fromException(e),
@@ -54,7 +80,15 @@ class EventRepositoryImplementation implements EventRepository {
   ResultFuture<List<PostEntity>> getEventPosts() async {
     try {
       final result = await _eventRemoteDatasource.getEventPosts();
-      return Right([PostEntity.empty()]);
+      final postEntities = result
+          .map((postModel) => PostEntity(
+                id: postModel.id,
+                userId: postModel.userId,
+                title: postModel.title,
+                body: postModel.body,
+              ))
+          .toList();
+      return Right(postEntities);
     } on ServerException catch (e) {
       return Left(
         ServerFailure.fromException(e),

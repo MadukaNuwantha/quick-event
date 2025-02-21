@@ -9,6 +9,8 @@ class CustomTextField extends StatefulWidget {
   final bool? validate;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final bool? readOnly;
+  final String? Function(String?)? onValidate;
 
   const CustomTextField({
     super.key,
@@ -17,6 +19,8 @@ class CustomTextField extends StatefulWidget {
     this.validate,
     this.prefixIcon,
     this.suffixIcon,
+    this.readOnly,
+    this.onValidate,
   });
 
   @override
@@ -43,6 +47,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: widget.readOnly ?? false,
       focusNode: _focusNode,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
@@ -60,7 +65,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.primary,
+            color: widget.readOnly ?? false ? AppColors.lightGrey : AppColors.primary,
           ),
         ),
         errorBorder: UnderlineInputBorder(
@@ -107,12 +112,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
       controller: widget.controller,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.text,
-      validator: (value) {
-        if (widget.validate == true && (value == null || value.isEmpty)) {
-          return 'Please fill this field to continue';
-        }
-        return null;
-      },
+      validator: widget.onValidate ??
+          (value) {
+            if (widget.validate == true && (value == null || value.isEmpty)) {
+              return 'Please fill this field to continue';
+            }
+            return null;
+          },
     );
   }
 }

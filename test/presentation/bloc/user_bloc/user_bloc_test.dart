@@ -47,9 +47,13 @@ void main() {
     },
   );
 
-  final tCreateUserParams = UserCreateParams.empty();
-  final tSaveUserParams = UserSaveParams.empty();
-  final tUpdateUserParams = UserUpdateParams.empty();
+  final String tFirstName = '_empty.string_';
+  final String tLastName = '_empty.string_';
+  final String tEmail = '_empty.string_';
+  final String tPassword = '_empty.string_';
+  final String tPhoneNumber = '_empty.string_';
+  final String tAddress = '_empty.string_';
+
   final tUser = UserEntity.empty();
   final tFailure = FirebaseServerFailure(
     message: 'Firebase Exception',
@@ -69,14 +73,22 @@ void main() {
         'emits [UserLoading, UserCreated] when CreateUser is successful',
         build: () {
           when(
-            () => userCreateUsecase(tCreateUserParams),
+            () => userCreateUsecase(
+              UserCreateParams(
+                email: tEmail,
+                password: tPassword,
+              ),
+            ),
           ).thenAnswer(
             (_) async => const Right(null),
           );
           return userBloc;
         },
         act: (bloc) => bloc.add(
-          CreateUser(tCreateUserParams),
+          CreateUser(
+            email: tEmail,
+            password: tPassword,
+          ),
         ),
         expect: () => [UserLoading(), UserCreated()],
       );
@@ -85,14 +97,22 @@ void main() {
         'emits [UserLoading, UserError] when CreateUser fails',
         build: () {
           when(
-            () => userCreateUsecase(tCreateUserParams),
+            () => userCreateUsecase(
+              UserCreateParams(
+                email: tEmail,
+                password: tPassword,
+              ),
+            ),
           ).thenAnswer(
             (_) async => Left(tFailure),
           );
           return userBloc;
         },
         act: (bloc) => bloc.add(
-          CreateUser(tCreateUserParams),
+          CreateUser(
+            email: tEmail,
+            password: tPassword,
+          ),
         ),
         expect: () => [
           UserLoading(),
@@ -139,14 +159,28 @@ void main() {
         'emits [UserLoading, UserSaved] when SaveUser is successful',
         build: () {
           when(
-            () => userSaveUsecase(tSaveUserParams),
+            () => userSaveUsecase(
+              UserSaveParams(
+                firstName: tFirstName,
+                lastName: tLastName,
+                email: tEmail,
+                phoneNumber: tPhoneNumber,
+                address: tAddress,
+              ),
+            ),
           ).thenAnswer(
             (_) async => const Right(null),
           );
           return userBloc;
         },
         act: (bloc) => bloc.add(
-          SaveUser(tSaveUserParams),
+          SaveUser(
+            firstName: tFirstName,
+            lastName: tLastName,
+            email: tEmail,
+            phoneNumber: tPhoneNumber,
+            address: tAddress,
+          ),
         ),
         expect: () => [
           UserLoading(),
@@ -158,14 +192,28 @@ void main() {
         'emits [UserLoading, UserError] when SaveUser fails',
         build: () {
           when(
-            () => userSaveUsecase(tSaveUserParams),
+            () => userSaveUsecase(
+              UserSaveParams(
+                firstName: tFirstName,
+                lastName: tLastName,
+                email: tEmail,
+                phoneNumber: tPhoneNumber,
+                address: tAddress,
+              ),
+            ),
           ).thenAnswer(
             (_) async => Left(tFailure),
           );
           return userBloc;
         },
         act: (bloc) => bloc.add(
-          SaveUser(tSaveUserParams),
+          SaveUser(
+            firstName: tFirstName,
+            lastName: tLastName,
+            email: tEmail,
+            phoneNumber: tPhoneNumber,
+            address: tAddress,
+          ),
         ),
         expect: () => [UserLoading(), UserError(tFailure.message)],
       );
@@ -174,14 +222,28 @@ void main() {
         'emits [UserLoading, UserUpdated] when UpdateUser is successful',
         build: () {
           when(
-            () => userUpdateUsecase(tUpdateUserParams),
+            () => userUpdateUsecase(
+              UserUpdateParams(
+                firstName: tFirstName,
+                lastName: tLastName,
+                email: tEmail,
+                phoneNumber: tPhoneNumber,
+                address: tAddress,
+              ),
+            ),
           ).thenAnswer(
             (_) async => const Right(null),
           );
           return userBloc;
         },
         act: (bloc) => bloc.add(
-          UpdateUser(tUpdateUserParams),
+          UpdateUser(
+            firstName: tFirstName,
+            lastName: tLastName,
+            email: tEmail,
+            phoneNumber: tPhoneNumber,
+            address: tAddress,
+          ),
         ),
         expect: () => [
           UserLoading(),
@@ -193,14 +255,28 @@ void main() {
         'emits [UserLoading, UserError] when UpdateUser fails',
         build: () {
           when(
-            () => userUpdateUsecase(tUpdateUserParams),
+            () => userUpdateUsecase(
+              UserUpdateParams(
+                firstName: tFirstName,
+                lastName: tLastName,
+                email: tEmail,
+                phoneNumber: tPhoneNumber,
+                address: tAddress,
+              ),
+            ),
           ).thenAnswer(
             (_) async => Left(tFailure),
           );
           return userBloc;
         },
         act: (bloc) => bloc.add(
-          UpdateUser(tUpdateUserParams),
+          UpdateUser(
+            firstName: tFirstName,
+            lastName: tLastName,
+            email: tEmail,
+            phoneNumber: tPhoneNumber,
+            address: tAddress,
+          ),
         ),
         expect: () => [UserLoading(), UserError(tFailure.message)],
       );

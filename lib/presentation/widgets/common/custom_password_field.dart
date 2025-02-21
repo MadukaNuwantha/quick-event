@@ -8,14 +8,10 @@ class CustomPasswordField extends StatefulWidget {
   final String? hintText;
   final bool? validate;
   final IconData? prefixIcon;
+  final String? Function(String?)? onValidate;
 
-  const CustomPasswordField({
-    super.key,
-    required this.controller,
-    this.hintText,
-    this.validate,
-    this.prefixIcon,
-  });
+  const CustomPasswordField(
+      {super.key, required this.controller, this.hintText, this.validate, this.prefixIcon, this.onValidate});
 
   @override
   State<CustomPasswordField> createState() => _CustomPasswordFieldState();
@@ -114,12 +110,13 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
       controller: widget.controller,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.text,
-      validator: (value) {
-        if (widget.validate == true && (value == null || value.isEmpty)) {
-          return 'Please fill this field to continue';
-        }
-        return null;
-      },
+      validator: widget.onValidate ??
+          (value) {
+            if (widget.validate == true && (value == null || value.isEmpty)) {
+              return 'Please fill this field to continue';
+            }
+            return null;
+          },
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:app/core/constants/app_colors.dart';
 import 'package:app/core/constants/app_sizes.dart';
+import 'package:app/domain/entities/post_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostListTile extends StatelessWidget {
-  const PostListTile({super.key});
+  final PostEntity postEntity;
+  const PostListTile({super.key, required this.postEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class PostListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Event Name',
+            postEntity.title,
             style: GoogleFonts.inter(
               color: AppColors.darkGrey,
               fontSize: ScreenSize.textScaleFactor(context, 16),
@@ -30,7 +32,7 @@ class PostListTile extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Text(
-            'This is the comment description This & the content description This is the content description This is the content description',
+            postEntity.body,
             style: GoogleFonts.inter(
               color: AppColors.mediumGrey,
               fontSize: ScreenSize.textScaleFactor(context, 12),

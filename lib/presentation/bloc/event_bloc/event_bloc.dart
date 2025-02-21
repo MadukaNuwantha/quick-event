@@ -1,3 +1,7 @@
+import 'package:app/domain/entities/comment_entity.dart';
+import 'package:app/domain/entities/image_entity.dart';
+import 'package:app/domain/entities/organizer_entity.dart';
+import 'package:app/domain/entities/post_entity.dart';
 import 'package:app/domain/usecases/event_usecase/event_comment_usecase.dart';
 import 'package:app/domain/usecases/event_usecase/event_image_usecase.dart';
 import 'package:app/domain/usecases/event_usecase/event_organizer_usecase.dart';
@@ -24,11 +28,16 @@ class EventBloc extends Bloc<EventEvent, EventState> {
     on<LoadEventImages>(_getImageHandler);
     on<LoadEventOrganizers>(_getOrganizerHandler);
     on<LoadEventPosts>(_getPostsHandler);
+    on<LoadDashboardData>(_loadDashboardDataHandler);
   }
   final EventCommentUsecase _eventCommentUsecase;
   final EventImageUsecase _eventImageUsecase;
   final EventOrganizerUsecase _eventOrganizerUsecase;
   final EventPostUsecase _eventPostUsecase;
+
+  List<ImageEntity> _eventImages = [];
+  List<OrganizerEntity> _eventOrganizers = [];
+  List<PostEntity> _eventPosts = [];
 
   Future<void> _getCommentsHandler(
     LoadEventComments event,
@@ -40,7 +49,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
 
     result.fold(
       (failure) => emit(EventError(failure.message)),
-      (data) => emit(EventLoaded(data)),
+      (data) => emit(EventCommentsLoaded(data)),
     );
   }
 
@@ -54,7 +63,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
 
     result.fold(
       (failure) => emit(EventError(failure.message)),
-      (data) => emit(EventLoaded(data)),
+      (data) => emit(EventImagesLoaded(data)),
     );
   }
 
@@ -68,7 +77,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
 
     result.fold(
       (failure) => emit(EventError(failure.message)),
-      (data) => emit(EventLoaded(data)),
+      (data) => emit(EventOrganizersLoaded(data)),
     );
   }
 
@@ -82,7 +91,47 @@ class EventBloc extends Bloc<EventEvent, EventState> {
 
     result.fold(
       (failure) => emit(EventError(failure.message)),
-      (data) => emit(EventLoaded(data)),
+      (data) => emit(EventPostsLoaded(data)),
     );
+  }
+
+  Future<void> _loadDashboardDataHandler(
+    LoadDashboardData event,
+    Emitter<EventState> emit,
+  ) async {
+    emit(EventLoading());
+
+    // Load all data in parallel
+    final imageResult = await _eventImageUsecase();
+    final organizerResult = await _eventOrganizerUsecase();
+    final postResult = await _eventPostUsecase();
+
+    // Check for errors
+    if (imageResult.isLeft() || organizerResult.isLeft() || postResult.isLeft()) {
+      emit(EventError('Failed to load dashboard data'));
+      return;
+    }
+
+    // Update local state
+    _eventImages = imageResult.getOrElse(() => []);
+    _eventOrganizers = organizerResult.getOrElse(() => []);
+    _eventPosts = postResult.getOrElse(() => []);
+
+    // Emit the combined state
+    emit(EventDashboardLoaded(
+      eventImages: _eventImages,
+      eventOrganizers: _eventOrganizers,
+      eventPosts: _eventPosts,
+    ));
+  }
+
+  void _emitDashboardState(Emitter<EventState> emit) {
+    if (_eventImages.isNotEmpty && _eventOrganizers.isNotEmpty && _eventPosts.isNotEmpty) {
+      emit(EventDashboardLoaded(
+        eventImages: _eventImages,
+        eventOrganizers: _eventOrganizers,
+        eventPosts: _eventPosts,
+      ));
+    }
   }
 }

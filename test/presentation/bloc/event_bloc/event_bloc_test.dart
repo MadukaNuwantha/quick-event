@@ -93,7 +93,7 @@ void main() {
         ),
         expect: () => [
           EventLoading(),
-          EventLoaded(tCommentData),
+          EventCommentsLoaded(tCommentData),
         ],
       );
 
@@ -131,7 +131,7 @@ void main() {
         ),
         expect: () => [
           EventLoading(),
-          EventLoaded(tImageData),
+          EventImagesLoaded(tImageData),
         ],
       );
 
@@ -169,7 +169,7 @@ void main() {
         ),
         expect: () => [
           EventLoading(),
-          EventLoaded(tOrganizerData),
+          EventOrganizersLoaded(tOrganizerData),
         ],
       );
 
@@ -207,7 +207,7 @@ void main() {
         ),
         expect: () => [
           EventLoading(),
-          EventLoaded(tPostData),
+          EventPostsLoaded(tPostData),
         ],
       );
 

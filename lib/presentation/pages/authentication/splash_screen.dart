@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:app/core/constants/app_colors.dart';
 import 'package:app/core/constants/app_sizes.dart';
+import 'package:app/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (user == null) {
       GoRouter.of(context).go('/login');
     } else {
+      context.read<UserBloc>().add(GetUser());
       GoRouter.of(context).go('/dashboard');
     }
   }

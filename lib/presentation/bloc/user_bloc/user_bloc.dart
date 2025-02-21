@@ -38,7 +38,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(UserLoading());
 
-    final result = await _userCreateUsecase(event.params);
+    final result = await _userCreateUsecase(
+      UserCreateParams(
+        email: event.email,
+        password: event.password,
+      ),
+    );
 
     result.fold(
       (failure) => emit(UserError(failure.message)),
@@ -66,7 +71,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(UserLoading());
 
-    final result = await _userSaveUsecase(event.params);
+    final result = await _userSaveUsecase(
+      UserSaveParams(
+        firstName: event.firstName,
+        lastName: event.lastName,
+        email: event.email,
+        phoneNumber: event.phoneNumber,
+        address: event.address,
+      ),
+    );
 
     result.fold(
       (failure) => emit(UserError(failure.message)),
@@ -80,7 +93,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(UserLoading());
 
-    final result = await _userUpdateUsecase(event.params);
+    final result = await _userUpdateUsecase(
+      UserUpdateParams(
+        firstName: event.firstName,
+        lastName: event.lastName,
+        email: event.email,
+        phoneNumber: event.phoneNumber,
+        address: event.address,
+      ),
+    );
 
     result.fold(
       (failure) => emit(UserError(failure.message)),

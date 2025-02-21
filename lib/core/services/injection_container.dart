@@ -1,4 +1,5 @@
 import 'package:app/core/network/nerwork_service.dart';
+import 'package:app/core/services/logger_service.dart';
 import 'package:app/data/datasources/auth_remote_datasource.dart';
 import 'package:app/data/datasources/event_remote_datasource.dart';
 import 'package:app/data/datasources/user_remote_datasource.dart';
@@ -78,5 +79,6 @@ Future<void> init() async {
     // External Dependencies
     ..registerLazySingleton(NetworkService.new)
     ..registerLazySingleton(() => FirebaseAuth.instance)
-    ..registerLazySingleton(() => FirebaseFirestore.instance);
+    ..registerLazySingleton(() => FirebaseFirestore.instance)
+    ..registerLazySingleton(() => LoggerService());
 }

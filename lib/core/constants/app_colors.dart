@@ -8,5 +8,7 @@ class AppColors {
   static Color lightGrey = Colors.grey.shade500;
   static Color softGray = Colors.grey.shade200;
   static Color white = Colors.white;
-  static Color error = Colors.red;
+  static const Color error = Color(0xFFF97066);
+  static const Color warning = Color(0xFFFEC84B);
+  static const Color success = Color(0xFF32D583);
 }

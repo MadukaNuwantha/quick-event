@@ -51,7 +51,16 @@ class UserRepositoryImplementation implements UserRepository {
   ResultFuture<UserEntity> getUser() async {
     try {
       final result = await _userRemoteDatasource.getUser();
-      return Right(UserEntity.empty());
+      return Right(
+        UserEntity(
+          id: result.id,
+          email: result.email,
+          firstName: result.firstName,
+          lastName: result.lastName,
+          phoneNumber: result.phoneNumber,
+          address: result.address,
+        ),
+      );
     } on FirebaseServerException catch (e) {
       return Left(
         FirebaseServerFailure.fromException(e),

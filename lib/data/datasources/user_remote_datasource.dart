@@ -39,6 +39,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         password: password,
       );
       await _firebaseAuth.signOut();
+    } on FirebaseServerException {
+      rethrow;
     } catch (e) {
       throw FirebaseServerException(
         message: 'Error : $e',
@@ -70,6 +72,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           message: 'No authenticated user found',
         );
       }
+    } on FirebaseServerException {
+      rethrow;
     } catch (e) {
       throw FirebaseServerException(
         message: 'Error : $e',
@@ -84,7 +88,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       if (user != null) {
         DocumentSnapshot doc = await _firebaseFirestore.collection('users').doc(user.uid).get();
         if (doc.exists) {
-          return UserModel.fromJson(doc.data() as String);
+          return UserModel.fromMap(doc.data() as Map<String, dynamic>);
         } else {
           throw FirebaseServerException(
             message: 'User data not found',
@@ -95,6 +99,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           message: 'No authenticated user found',
         );
       }
+    } on FirebaseServerException {
+      rethrow;
     } catch (e) {
       throw FirebaseServerException(
         message: 'Error : $e',
@@ -125,6 +131,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           message: 'No authenticated user found',
         );
       }
+    } on FirebaseServerException {
+      rethrow;
     } catch (e) {
       throw FirebaseServerException(
         message: 'Error : $e',

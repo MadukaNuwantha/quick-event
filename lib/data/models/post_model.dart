@@ -51,4 +51,13 @@ class PostModel extends PostEntity {
       };
 
   String toJson() => jsonEncode(toMap());
+
+  PostEntity toEntity(PostModel postModel) {
+    return PostEntity(
+      id: id,
+      userId: userId,
+      title: title,
+      body: body,
+    );
+  }
 }

@@ -16,7 +16,8 @@ final class AuthLoading extends AuthState {
 }
 
 final class Authenticated extends AuthState {
-  const Authenticated();
+  const Authenticated(this.userCredential);
+  final UserCredential userCredential;
 }
 
 final class Unauthenticated extends AuthState {

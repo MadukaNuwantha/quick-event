@@ -1,11 +1,13 @@
 import 'package:app/core/constants/app_colors.dart';
 import 'package:app/core/constants/app_images.dart';
 import 'package:app/core/constants/app_sizes.dart';
+import 'package:app/domain/entities/organizer_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DashboardOrganizerTile extends StatelessWidget {
-  const DashboardOrganizerTile({super.key});
+  final OrganizerEntity organizerEntity;
+  const DashboardOrganizerTile({super.key, required this.organizerEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class DashboardOrganizerTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Name',
+                  organizerEntity.name,
                   style: GoogleFonts.inter(
                     color: AppColors.darkGrey,
                     fontSize: ScreenSize.textScaleFactor(context, 16),
@@ -44,7 +46,7 @@ class DashboardOrganizerTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'email@email.com',
+                  organizerEntity.email,
                   style: GoogleFonts.inter(
                     color: AppColors.mediumGrey,
                     fontSize: ScreenSize.textScaleFactor(context, 14),

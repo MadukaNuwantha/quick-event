@@ -4,12 +4,15 @@ import 'package:app/domain/usecases/auth_usecases/auth_logout_usecase.dart';
 import 'package:app/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthLoginUsecase extends Mock implements AuthLoginUsecase {}
 
 class MockAuthLogoutUsecase extends Mock implements AuthLogoutUsecase {}
+
+class MockUserCredential extends Mock implements UserCredential {}
 
 void main() {
   late AuthBloc authBloc;
@@ -61,7 +64,7 @@ void main() {
         ),
         expect: () => [
           AuthLoading(),
-          Authenticated(),
+          Authenticated(MockUserCredential()),
         ],
         verify: (_) {
           verify(
