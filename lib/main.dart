@@ -1,3 +1,4 @@
+import 'package:app/core/services/injection_container.dart';
 import 'package:app/core/theme/theme.dart';
 import 'package:app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,6 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await init();
   runApp(
     const QuickEvent(),
   );

@@ -2,7 +2,7 @@ import 'package:app/core/errors/exceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthRemoteDatasource {
-  Future<void> loginUser({required String email, required String password});
+  Future<UserCredential?> loginUser({required String email, required String password});
 
   Future<void> logoutUser();
 }
@@ -13,16 +13,15 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   final FirebaseAuth _firebaseAuth;
 
   @override
-  Future<void> loginUser({required String email, required String password}) async {
+  Future<UserCredential?> loginUser({required String email, required String password}) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      return await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
     } catch (e) {
-      throw ServerException(
+      throw FirebaseServerException(
         message: 'Error : $e',
-        statusCode: 500,
       );
     }
   }
@@ -32,9 +31,8 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
-      throw ServerException(
+      throw FirebaseServerException(
         message: 'Error : $e',
-        statusCode: 500,
       );
     }
   }

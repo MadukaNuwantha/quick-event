@@ -33,9 +33,8 @@ void main() {
   const String tEmail = 'test@example.com';
   const String tPassword = 'password123';
 
-  const tException = ServerException(
-    message: 'Unknown error occurred',
-    statusCode: 500,
+  const tException = FirebaseServerException(
+    message: 'Test Exception',
   );
 
   group(
@@ -67,7 +66,7 @@ void main() {
       );
 
       test(
-        'should return Left(ServerFailure) when creating user fails',
+        'should return Left(FirebaseServerFailure) when creating user fails',
         () async {
           when(
             () => userRemoteDatasource.createUser(
@@ -82,9 +81,8 @@ void main() {
             result,
             equals(
               Left(
-                ServerFailure(
+                FirebaseServerFailure(
                   message: tException.message,
-                  statusCode: tException.statusCode,
                 ),
               ),
             ),
@@ -141,7 +139,7 @@ void main() {
       );
 
       test(
-        'should return Left(ServerFailure) when creating a user fails',
+        'should return Left(FirebaseServerFailure) when creating a user fails',
         () async {
           when(
             () => userRemoteDatasource.saveUser(
@@ -164,7 +162,11 @@ void main() {
           expect(
             result,
             equals(
-              Left(ServerFailure.fromException(tException)),
+              Left(
+                FirebaseServerFailure(
+                  message: tException.message,
+                ),
+              ),
             ),
           );
 
@@ -205,7 +207,7 @@ void main() {
       );
 
       test(
-        'should return Left(ServerFailure) when getting user fails',
+        'should return Left(FirebaseServerFailure) when getting user fails',
         () async {
           when(() => userRemoteDatasource.getUser()).thenThrow(tException);
 
@@ -214,7 +216,7 @@ void main() {
           expect(
             result,
             equals(
-              Left(ServerFailure.fromException(tException)),
+              Left(FirebaseServerFailure.fromException(tException)),
             ),
           );
 
@@ -265,7 +267,7 @@ void main() {
       );
 
       test(
-        'should return Left(ServerFailure) when updating a user fails',
+        'should return Left(FirebaseServerFailure) when updating a user fails',
         () async {
           when(
             () => userRemoteDatasource.updateUser(
@@ -285,7 +287,17 @@ void main() {
             address: '123 Street Name',
           );
 
-          expect(result, equals(Left(ServerFailure.fromException(tException))));
+          expect(
+            result,
+            equals(
+              Left(
+                FirebaseServerFailure(
+                  message: tException.message,
+                ),
+              ),
+            ),
+          );
+
           verify(
             () => userRemoteDatasource.updateUser(
               firstName: 'John',

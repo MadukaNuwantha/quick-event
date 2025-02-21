@@ -14,25 +14,29 @@ import 'package:app/core/errors/failure.dart';
 import 'package:app/data/datasources/auth_remote_datasource.dart';
 import 'package:app/data/repositories/auth_repository_implementation.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthRemoteDataSource extends Mock implements AuthRemoteDatasource {}
 
+class MockUserCredential extends Mock implements UserCredential {}
+
 void main() {
   late AuthRemoteDatasource authRemoteDatasource;
   late AuthRepositoryImplementation authRepositoryImplementation;
+  late UserCredential userCredential;
 
   setUp(() {
+    userCredential = MockUserCredential();
     authRemoteDatasource = MockAuthRemoteDataSource();
     authRepositoryImplementation = AuthRepositoryImplementation(authRemoteDatasource);
   });
 
   const String tEmail = 'test@example.com';
   const String tPassword = 'password123';
-  const tException = ServerException(
-    message: 'Unknown error occurred',
-    statusCode: 500,
+  const tException = FirebaseServerException(
+    message: 'Test Exception',
   );
 
   group(
@@ -46,11 +50,11 @@ void main() {
               email: any(named: 'email'),
               password: any(named: 'password'),
             ),
-          ).thenAnswer((_) async => Future.value());
+          ).thenAnswer((_) async => userCredential);
 
           final result = await authRepositoryImplementation.loginUser(email: tEmail, password: tPassword);
 
-          expect(result, equals(Right(null)));
+          expect(result, equals(Right(userCredential)));
 
           verify(
             () => authRemoteDatasource.loginUser(email: tEmail, password: tPassword),
@@ -76,9 +80,8 @@ void main() {
             result,
             equals(
               Left(
-                ServerFailure(
+                FirebaseServerFailure(
                   message: tException.message,
-                  statusCode: tException.statusCode,
                 ),
               ),
             ),
@@ -126,9 +129,8 @@ void main() {
             result,
             equals(
               Left(
-                ServerFailure(
+                FirebaseServerFailure(
                   message: tException.message,
-                  statusCode: tException.statusCode,
                 ),
               ),
             ),

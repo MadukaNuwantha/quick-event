@@ -2,6 +2,7 @@ import 'package:app/core/usecase/usecase.dart';
 import 'package:app/core/utils/typedef.dart';
 import 'package:app/domain/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthLoginUsecase extends UsecaseWithParams<void, AuthLoginParams> {
   const AuthLoginUsecase(this._authRepository);
@@ -9,7 +10,7 @@ class AuthLoginUsecase extends UsecaseWithParams<void, AuthLoginParams> {
   final AuthRepository _authRepository;
 
   @override
-  ResultVoid call(AuthLoginParams params) async =>
+  ResultFuture<UserCredential?> call(AuthLoginParams params) async =>
       _authRepository.loginUser(email: params.email, password: params.password);
 }
 

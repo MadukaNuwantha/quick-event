@@ -40,9 +40,8 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       );
       await _firebaseAuth.signOut();
     } catch (e) {
-      throw ServerException(
+      throw FirebaseServerException(
         message: 'Error : $e',
-        statusCode: 500,
       );
     }
   }
@@ -67,12 +66,13 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           'address': address,
         });
       } else {
-        throw Exception("No authenticated user found");
+        throw FirebaseServerException(
+          message: 'No authenticated user found',
+        );
       }
     } catch (e) {
-      throw ServerException(
+      throw FirebaseServerException(
         message: 'Error : $e',
-        statusCode: 500,
       );
     }
   }
@@ -86,15 +86,18 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         if (doc.exists) {
           return UserModel.fromJson(doc.data() as String);
         } else {
-          throw Exception("User data not found");
+          throw FirebaseServerException(
+            message: 'User data not found',
+          );
         }
       } else {
-        throw Exception("No authenticated user found");
+        throw FirebaseServerException(
+          message: 'No authenticated user found',
+        );
       }
     } catch (e) {
-      throw ServerException(
+      throw FirebaseServerException(
         message: 'Error : $e',
-        statusCode: 500,
       );
     }
   }
@@ -118,12 +121,13 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           'address': address,
         });
       } else {
-        throw Exception("No authenticated user found");
+        throw FirebaseServerException(
+          message: 'No authenticated user found',
+        );
       }
     } catch (e) {
-      throw ServerException(
+      throw FirebaseServerException(
         message: 'Error : $e',
-        statusCode: 500,
       );
     }
   }

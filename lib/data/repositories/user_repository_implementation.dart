@@ -16,9 +16,9 @@ class UserRepositoryImplementation implements UserRepository {
     try {
       await _userRemoteDatasource.createUser(email: email, password: password);
       return Right(null);
-    } on ServerException catch (e) {
+    } on FirebaseServerException catch (e) {
       return Left(
-        ServerFailure.fromException(e),
+        FirebaseServerFailure.fromException(e),
       );
     }
   }
@@ -40,9 +40,9 @@ class UserRepositoryImplementation implements UserRepository {
         address: address,
       );
       return Right(null);
-    } on ServerException catch (e) {
+    } on FirebaseServerException catch (e) {
       return Left(
-        ServerFailure.fromException(e),
+        FirebaseServerFailure.fromException(e),
       );
     }
   }
@@ -52,9 +52,9 @@ class UserRepositoryImplementation implements UserRepository {
     try {
       final result = await _userRemoteDatasource.getUser();
       return Right(UserEntity.empty());
-    } on ServerException catch (e) {
+    } on FirebaseServerException catch (e) {
       return Left(
-        ServerFailure.fromException(e),
+        FirebaseServerFailure.fromException(e),
       );
     }
   }
@@ -76,9 +76,9 @@ class UserRepositoryImplementation implements UserRepository {
         address: address,
       );
       return Right(null);
-    } on ServerException catch (e) {
+    } on FirebaseServerException catch (e) {
       return Left(
-        ServerFailure.fromException(e),
+        FirebaseServerFailure.fromException(e),
       );
     }
   }

@@ -4,6 +4,7 @@ import 'package:app/core/utils/typedef.dart';
 import 'package:app/data/datasources/auth_remote_datasource.dart';
 import 'package:app/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepositoryImplementation implements AuthRepository {
   const AuthRepositoryImplementation(this._authRemoteDatasource);
@@ -11,13 +12,16 @@ class AuthRepositoryImplementation implements AuthRepository {
   final AuthRemoteDatasource _authRemoteDatasource;
 
   @override
-  ResultVoid loginUser({required String email, required String password}) async {
+  ResultFuture<UserCredential?> loginUser({required String email, required String password}) async {
     try {
-      await _authRemoteDatasource.loginUser(email: email, password: password);
-      return Right(null);
-    } on ServerException catch (e) {
+      UserCredential? userCredential = await _authRemoteDatasource.loginUser(
+        email: email,
+        password: password,
+      );
+      return Right(userCredential);
+    } on FirebaseServerException catch (e) {
       return Left(
-        ServerFailure.fromException(e),
+        FirebaseServerFailure.fromException(e),
       );
     }
   }
@@ -27,9 +31,9 @@ class AuthRepositoryImplementation implements AuthRepository {
     try {
       await _authRemoteDatasource.logoutUser();
       return Right(null);
-    } on ServerException catch (e) {
+    } on FirebaseServerException catch (e) {
       return Left(
-        ServerFailure.fromException(e),
+        FirebaseServerFailure.fromException(e),
       );
     }
   }

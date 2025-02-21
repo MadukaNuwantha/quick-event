@@ -42,9 +42,27 @@ dependencies:
 
   # A powerful HTTP client for making API requests with features like interceptors and cancelable requests.
   dio: ^5.8.0+1
+
+  # Enables the use of Google Fonts in a Flutter app.
   google_fonts: ^6.2.1
+
+  # A declarative routing package for Flutter apps, supporting deep linking and navigation.
   go_router: ^14.8.0
+
+  # A collection of animated loading indicators for Flutter applications.
   flutter_spinkit: ^5.2.1
+
+  # A Flutter package for creating image carousels and sliders with customizable options.
+  carousel_slider: ^5.0.0
+
+  # Provides platform-specific package information like app version and build number.
+  package_info_plus: ^8.2.1
+
+  # A service locator for managing dependency injection in Flutter and Dart applications.
+  get_it: ^8.0.3
+
+  # A flexible and easy-to-use logging package for debugging and monitoring Flutter applications.
+  logger: ^2.5.0
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +75,7 @@ dev_dependencies:
 
   # A mocking framework for Dart that simplifies unit testing by creating test doubles without code generation.
   mocktail: ^1.0.4
+  bloc_test: ^10.0.0
 
 flutter:
   uses-material-design: true
